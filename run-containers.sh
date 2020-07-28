@@ -17,6 +17,7 @@ CONTAINER_INVENTORY="inventory.ini"
 INSTANCE_FORMAT="ssh-%03d"
 INSTANCE_USER="root"
 INSTANCE_AUTHORIZED_FILE="${SCRIPT_DIR}/authorized_keys"
+INSTANCE_LOG_MOUNT="-v /dev/log:/dev/log"
 
 if ! command -v $CONTAINER_ENGINE >/dev/null; then
     echo "${CONTAINER_ENGINE} is not installed"
@@ -49,7 +50,7 @@ spawn_container () {
         echo "Missing container name"
         exit 1
     fi
-    $SUDO_CMD $CONTAINER_ENGINE run -d --rm --network $NETWORK_NAME --name $NAME $CONTAINER
+    $SUDO_CMD $CONTAINER_ENGINE run -d --rm $INSTANCE_LOG_MOUNT --network $NETWORK_NAME --name $NAME $CONTAINER
     check_cmd $? "Creating instance failed"
 }
 
