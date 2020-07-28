@@ -17,7 +17,7 @@ CONTAINER_INVENTORY="inventory.ini"
 INSTANCE_FORMAT="ssh-%03d"
 INSTANCE_USER="root"
 INSTANCE_AUTHORIZED_FILE="${SCRIPT_DIR}/authorized_keys"
-INSTANCE_LOG_MOUNT="-v /dev/log:/dev/log"
+INSTANCE_LOG_MOUNT="-v /dev/log:/dev/log -v /var/run/systemd/journal/socket:/var/run/systemd/journal/socket"
 
 if ! command -v $CONTAINER_ENGINE >/dev/null; then
     echo "${CONTAINER_ENGINE} is not installed"
