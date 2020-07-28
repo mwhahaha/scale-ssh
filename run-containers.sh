@@ -7,7 +7,7 @@ SUDO_CMD="sudo"
 # network settings
 NETWORK_NAME="pub_net"
 NETWORK_SUBNET="172.16.86.0/24"
-NETWORK_GATEWAY="172.168.86.1"
+NETWORK_GATEWAY="172.16.86.1"
 
 # container settings
 CONTAINER="localhost/scale-ssh"
