@@ -2,6 +2,7 @@
 set -e
 
 echo "IPAddress: $(hostname -I)"
+echo "sshd Log File: /var/log/sshd.log"
 source /etc/sysconfig/sshd
 
 declare -a CRYPTO=("rsa" "ecdsa" "ed25519")
@@ -24,4 +25,4 @@ test -f /root/.ssh/authorized_keys || /usr/bin/cp /root/.ssh/id_rsa.pub /root/.s
 
 source /etc/crypto-policies/back-ends/opensshserver.config
 
-/usr/sbin/sshd -D $OPTIONS $CRYPTO_POLICY
+/usr/sbin/sshd -D $OPTIONS $CRYPTO_POLICY -E /var/log/sshd.log
