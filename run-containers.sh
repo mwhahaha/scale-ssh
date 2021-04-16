@@ -10,7 +10,7 @@ NETWORK_SUBNET="172.16.86.0/24"
 NETWORK_GATEWAY="172.16.86.1"
 
 # container settings
-CONTAINER="localhost/scale-ssh"
+CONTAINER="localhost/mwhahaha/scale-ssh"
 CONTAINER_ENGINE=podman
 CONTAINER_COUNT=${1:-100}
 CONTAINER_INVENTORY="inventory.ini"
@@ -50,7 +50,8 @@ spawn_container () {
         echo "Missing container name"
         exit 1
     fi
-    $SUDO_CMD $CONTAINER_ENGINE run -d --rm $INSTANCE_LOG_MOUNT --network $NETWORK_NAME --name $NAME $CONTAINER
+    # NOTE(mwhahaha): audit write needed in newer versions https://github.com/containers/podman/issues/3651
+    $SUDO_CMD $CONTAINER_ENGINE run --cap-add cap_audit_write -d --rm $INSTANCE_LOG_MOUNT --network $NETWORK_NAME --name $NAME $CONTAINER
     check_cmd $? "Creating instance failed"
 }
 

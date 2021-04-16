@@ -1,10 +1,13 @@
-FROM centos:8
+FROM registry.centos.org/centos:latest
 LABEL maintainer="Alex Schultz <aschultz@redhat.com>"
 
-RUN yum install -y openssh-server && yum clean all && rm -rf /var/cache/yum
+RUN yum -y update && yum -y install openssh-server passwd && yum clean all
+#RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N "" && ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key -N "" && ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N ""
+#RUN useradd foobar && echo "foobar:foobar" | chpasswd
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
 # SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+#RUN sed 's@#\?PermitEmptyPasswords no@PermitEmptyPasswords yes@g' -i /etc/ssh/sshd_config
 
 # create root .ssh dir
 RUN mkdir -p /root/.ssh && \
